@@ -26,7 +26,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
   String _sourceLang = "FR";
   String _targetLang = "EN";
 
-  final List<String> _languages = ["FR", "EN", "BR", "ES", "DE"];
+  final List<String> _languages = ["FR", "EN", "PT", "ES", "DE", "AK"];
 
   final DeeplApiService _deeplApiService = DeeplApiService();
 
@@ -103,31 +103,29 @@ class _TranslationScreenState extends State<TranslationScreen> {
             ),
 
             SizedBox(height: 16),
-
+            
             // Zone de texte d'entrée
-            Expanded(
-              child: TextField(
-                controller: _inputController,
-                maxLines: null,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "Saisissez votre texte",
-                  alignLabelWithHint: true,
-                ),
-              ),
-            ),
+            
+            Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _inputController,
+                        maxLines: null,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Saisissez votre texte",
+                          alignLabelWithHint: true,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    
 
-            SizedBox(height: 16),
+                    SizedBox(height: 16),
 
-            ElevatedButton(
-              onPressed: _translateText,
-              child: Text("Traduire"),
-            ),
 
-            SizedBox(height: 16),
-
-            // Zone de texte de sortie
-            Expanded(
+Expanded(
               child: Container(
                 padding: EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
@@ -139,6 +137,21 @@ class _TranslationScreenState extends State<TranslationScreen> {
                   style: TextStyle(fontSize: 16),
                 ),
               ),
+            ),
+            
+
+            SizedBox(height: 16),
+                  ],
+                ),
+            
+            SizedBox(height: 16),
+
+            
+
+            // Zone de texte de sortie
+            ElevatedButton(
+              onPressed: _translateText,
+              child: Text("Traduire"),
             ),
           ],
         ),
