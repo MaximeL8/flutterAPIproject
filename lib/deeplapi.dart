@@ -20,10 +20,16 @@ class DeeplApiService {
     );
 
     if (response.statusCode == 200) {
-      final jsonResponse = jsonDecode(response.body);
+      // Decode response body as UTF-8
+      final decodedResponse = utf8.decode(response.bodyBytes);
+      final jsonResponse = jsonDecode(decodedResponse);
+
+      // Access the translated text
       return jsonResponse['translations'][0]['text'];
     } else {
-      throw Exception("Failed to translate: ${response.body}");
+      // Handle errors and log for debugging
+      final decodedError = utf8.decode(response.bodyBytes);
+      throw Exception("Failed to translate: $decodedError");
     }
   }
 }

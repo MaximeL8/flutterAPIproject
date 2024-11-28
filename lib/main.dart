@@ -1,14 +1,17 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'deeplapi.dart';
 
 void main() {
-  runApp(TranslationApp());
+  runApp(const TranslationApp());
 }
 
 class TranslationApp extends StatelessWidget {
+  const TranslationApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: TranslationScreen(),
     );
@@ -16,7 +19,10 @@ class TranslationApp extends StatelessWidget {
 }
 
 class TranslationScreen extends StatefulWidget {
+  const TranslationScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _TranslationScreenState createState() => _TranslationScreenState();
 }
 
@@ -46,6 +52,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
         _targetLang,
       );
       setState(() {
+        //print(translation);
         _outputText = translation;
       });
     } catch (e) {
@@ -59,7 +66,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Traducteur"),
+        title: const Text("Traducteur"),
         backgroundColor: Colors.blueAccent,
       ),
       body: Padding(
@@ -84,7 +91,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
                   },
                 ),
                 IconButton(
-                  icon: Icon(Icons.swap_horiz),
+                  icon: const Icon(Icons.swap_horiz),
                   onPressed: _swapLanguages,
                 ),
                 DropdownButton<String>(
@@ -102,7 +109,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
               ],
             ),
 
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             
             // Zone de texte d'entrée
             
@@ -112,46 +119,46 @@ class _TranslationScreenState extends State<TranslationScreen> {
                       child: TextField(
                         controller: _inputController,
                         maxLines: null,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: "Saisissez votre texte",
                           alignLabelWithHint: true,
                         ),
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     
 
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
 
 
 Expanded(
               child: Container(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(4.0),
                 ),
                 child: Text(
                   _outputText,
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
             ),
             
 
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
                   ],
                 ),
             
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
 
             
 
             // Zone de texte de sortie
             ElevatedButton(
               onPressed: _translateText,
-              child: Text("Traduire"),
+              child: const Text("Traduire"),
             ),
           ],
         ),
