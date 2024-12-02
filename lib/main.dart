@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'deeplapi.dart';
 
@@ -32,9 +31,29 @@ class _TranslationScreenState extends State<TranslationScreen> {
   String _sourceLang = "FR";
   String _targetLang = "EN";
 
-  final List<String> _languages = ["FR", "EN", "PT", "ES", "DE", "AK"];
-
+  List<String> _languages = [];
   final DeeplApiService _deeplApiService = DeeplApiService();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadLanguages();
+  }
+
+  Future<void> _loadLanguages() async {
+    try {
+      final languages = await _deeplApiService.getSupportedLanguages();
+      setState(() {
+        _languages = languages;
+        _sourceLang = languages.contains("FR") ? "FR" : languages.first;
+        _targetLang = languages.contains("EN") ? "EN" : languages.first;
+      });
+    } catch (e) {
+      setState(() {
+        _outputText = "Erreur : Impossible de charger les langues.";
+      });
+    }
+  }
 
   void _swapLanguages() {
     setState(() {
@@ -79,15 +98,16 @@ class _TranslationScreenState extends State<TranslationScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 DropdownButton<String>(
-                  value: _sourceLang,
+                  value: _languages.isEmpty ? null : _sourceLang,
                   items: _languages
-                      .map((lang) =>
-                          DropdownMenuItem(value: lang, child: Text(lang)))
+                      .map((lang) => DropdownMenuItem(value: lang, child: Text(lang)))
                       .toList(),
                   onChanged: (value) {
-                    setState(() {
-                      _sourceLang = value!;
-                    });
+                    if (value != null) {
+                      setState(() {
+                        _sourceLang = value;
+                      });
+                    }
                   },
                 ),
                 IconButton(
@@ -132,7 +152,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
                     const SizedBox(height: 16),
 
 
-Expanded(
+            Expanded(
               child: Container(
                 padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(

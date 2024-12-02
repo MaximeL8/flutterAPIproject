@@ -32,4 +32,22 @@ class DeeplApiService {
       throw Exception("Failed to translate: $decodedError");
     }
   }
+
+  Future<List<String>> getSupportedLanguages() async {
+    final uri = Uri.parse("https://api-free.deepl.com/v2/languages");
+    final response = await http.get(
+      uri,
+      headers: {
+        "Authorization": "DeepL-Auth-Key $_authKey",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> languages = jsonDecode(response.body);
+      return languages.map((lang) => lang['language'].toString()).toList();
+    } else {
+      throw Exception("Failed to fetch languages: ${response.body}");
+    }
+  }
+
 }
