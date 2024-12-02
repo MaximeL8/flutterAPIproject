@@ -25,6 +25,22 @@ class TranslationScreen extends StatefulWidget {
   _TranslationScreenState createState() => _TranslationScreenState();
 }
 
+class TranslationHistory {
+  final String inputText;
+  final String outputText;
+  final String sourceLang;
+  final String targetLang;
+  final DateTime timestamp;
+
+  TranslationHistory({
+    required this.inputText,
+    required this.outputText,
+    required this.sourceLang,
+    required this.targetLang,
+    required this.timestamp,
+  });
+}
+
 class _TranslationScreenState extends State<TranslationScreen> {
   final TextEditingController _inputController = TextEditingController();
   String _outputText = "Traduction";
@@ -33,6 +49,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
 
   List<String> _languages = [];
   final DeeplApiService _deeplApiService = DeeplApiService();
+  List<TranslationHistory> _history = [];
 
   @override
   void initState() {
@@ -71,8 +88,14 @@ class _TranslationScreenState extends State<TranslationScreen> {
         _targetLang,
       );
       setState(() {
-        //print(translation);
         _outputText = translation;
+        _history.insert(0, TranslationHistory(
+        inputText: _inputController.text,
+        outputText: translation,
+        sourceLang: _sourceLang,
+        targetLang: _targetLang,
+        timestamp: DateTime.now(),
+        ));
       });
     } catch (e) {
       setState(() {
@@ -173,7 +196,36 @@ class _TranslationScreenState extends State<TranslationScreen> {
             
             const SizedBox(height: 16),
 
-            
+            Expanded(
+              child: ListView.builder(
+                itemCount: _history.length,
+                itemBuilder: (context, index) {
+                  final item = _history[index];
+                  return ListTile(
+                    title: Text("${item.inputText} → ${item.outputText}"),
+                    subtitle: Text("From ${item.sourceLang} to ${item.targetLang}"),
+                    trailing: Text(
+                      "${item.timestamp.hour}:${item.timestamp.minute} ${item.timestamp.day}/${item.timestamp.month}/${item.timestamp.year}",
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
+                  );
+                },
+              ),
+              
+            ),
+            // Conditional Clear History Button
+            if (_history.isNotEmpty)
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _history.clear();
+                  });
+                },
+                child: const Text("Effacer l'historique"),
+              ),
+
+
+
 
             // Zone de texte de sortie
             ElevatedButton(
