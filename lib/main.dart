@@ -10,12 +10,52 @@ class TranslationApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: TranslationScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const TranslationScreen(),
+        '/contact': (context) => const ContactPage(),
+      },
     );
   }
 }
+
+class ContactPage extends StatelessWidget {
+  const ContactPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Contact"),
+        backgroundColor: Colors.blueAccent,
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              Text(
+                "Informations de contact",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 16),
+              Text("Email : contact@traducteurapp.com", style: TextStyle(fontSize: 18)),
+              SizedBox(height: 8),
+              Text("Téléphone : +33 1 23 45 67 89", style: TextStyle(fontSize: 18)),
+              SizedBox(height: 8),
+              Text("Site Web : www.traducteurapp.com", style: TextStyle(fontSize: 18)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 
 class TranslationScreen extends StatefulWidget {
   const TranslationScreen({super.key});
@@ -108,8 +148,26 @@ class _TranslationScreenState extends State<TranslationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Traducteur"),
+        title: Row(
+          children: [
+            const Text("Traducteur"),
+          ],
+        ),
         backgroundColor: Colors.blueAccent,
+        actions: [
+          IconButton(
+            icon: Row(
+              children: const [
+                Icon(Icons.contact_page),
+                SizedBox(width: 4),
+                Text("Contact"),
+              ],
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, '/contact');
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
