@@ -31,13 +31,13 @@ class ContactPage extends StatelessWidget {
         title: const Text("Contact"),
         backgroundColor: Colors.blueAccent,
       ),
-      body: Center(
+      body: const Center(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               Text(
                 "Informations de contact",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -89,7 +89,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
 
   List<String> _languages = [];
   final DeeplApiService _deeplApiService = DeeplApiService();
-  List<TranslationHistory> _history = [];
+  final List<TranslationHistory> _history = [];
 
   @override
   void initState() {
@@ -148,16 +148,16 @@ class _TranslationScreenState extends State<TranslationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
+        title: const Row(
           children: [
-            const Text("Traducteur"),
+            Text("Traducteur"),
           ],
         ),
         backgroundColor: Colors.blueAccent,
         actions: [
           IconButton(
-            icon: Row(
-              children: const [
+            icon: const Row(
+              children: [
                 Icon(Icons.contact_page),
                 SizedBox(width: 4),
                 Text("Contact"),
@@ -264,7 +264,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
                     subtitle: Text("From ${item.sourceLang} to ${item.targetLang}"),
                     trailing: Text(
                       "${item.timestamp.hour}:${item.timestamp.minute} ${item.timestamp.day}/${item.timestamp.month}/${item.timestamp.year}",
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
                     ),
                   );
                 },
